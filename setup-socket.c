@@ -21,6 +21,7 @@ int main(void) {
     hints.ai_flags = AI_PASSIVE;      // Use my IP
 
     // Resolve address info
+    // getaddrinfo fills in the servinfo linked list with possible address structures to bind to, according to your hints
     if ((rv = getaddrinfo(NULL, PORT, &hints, &servinfo)) != 0) {
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
         return 1;
@@ -41,6 +42,7 @@ int main(void) {
             continue;
         }
 
+        // binds IP address & PORT to socket (which are contained in p->ai_addr)
         if (bind(listener, p->ai_addr, p->ai_addrlen) == -1) {
             perror("bind");
             close(listener);
@@ -49,7 +51,7 @@ int main(void) {
 
         break;
     }
-
+    // free linked list
     freeaddrinfo(servinfo);
 
     if (p == NULL) {
