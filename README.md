@@ -1,0 +1,2 @@
+- Setup Sockets (set to non-blocking)
+- used poll()/epoll()
